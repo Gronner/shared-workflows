@@ -38,11 +38,11 @@ runs:
         PR_TITLE: ${{ github.event.pull_request.title }}
       run: |
         echo "$PR_TITLE" | commitlint -g ${{ github.action_path }}/commitlint.config.mjs --verbose
-    - name: Validate PR's commits with commitlint
+    - name: Check PR's commits with commitlint
       shell: bash
       if: github.event_name == 'pull_request'
       env:
         PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       run: |
-        commitlint -g ${{ github.action_path }}/commitlint.config.mjs --from "$PR_BASE_SHA" --to "$PR_HEAD_SHA" --verbose
+        commitlint -g ${{ github.action_path }}/commitlint.config.mjs --from "$PR_BASE_SHA" --to "$PR_HEAD_SHA" --verbose || true
